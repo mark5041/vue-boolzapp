@@ -31,7 +31,9 @@ main {
     float: left;
     width: 25%;
     height: 100%;
-    background-color: rebeccapurple;
+    background-color: white;
+    overflow: hidden;
+    min-height: 100px;
 }
 
 .message-section {
@@ -47,14 +49,50 @@ main {
 
 /* header of two section */
 
-.nav {
-    background-color: red;
-    height: 60px;
+.my-nav {
+    background-color: #EAEAEA;
+    padding: 15px;
+    display: flex;
+    width: 100%;
 }
 
 .alert-message {
-    height: 80px;
-    background-color: crimson;
+    display: flex;
+    background-color: #8EDAFC;
+    padding: 15px;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.nav > .contact-meta__icon {
+    margin-left: 0.9em;
+}
+
+.contact-meta__button {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    float: right;
+}
+
+.button-box {
+    display: flex;
+    justify-content: end;
+}
+
+.button-box > button {
+    border: none;
+    background-color: transparent;
+    margin-right: 0.3em;
+}
+
+.button-box > button > i {
+    font-size: 1.2em;
+    color: #B1B1B1;
 }
 
 /* header of two section */
@@ -63,15 +101,23 @@ main {
 
 /* contact list */
 
+.list-box {
+    min-height: 120px;
+    overflow: auto;
+}
+
 .contact-list {
     list-style: none;
-    background-color: darkgoldenrod;
     padding-left: 0;
 }
 
 .contact-list-item {
     display: flex;
     padding: 10px 10px 10px 20px;
+}
+
+.contact-list-item:hover {
+    background-color: #E9EBEB;
 }
 
 .profile-pic {
@@ -115,7 +161,7 @@ main {
 .contact-meta__date {
     display: flex;
     flex-direction: row-reverse;
-    width: 40%;
+    width: 42%;
     padding-top: 3px;
 }
 
