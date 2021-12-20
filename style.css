@@ -2,5 +2,123 @@ html {
     font-size: 100%;
 }
 
-/* add to do */
 
+/* background */
+
+body {
+    height: calc(100vh - 5em);
+    background-image: linear-gradient(rgba(0, 149, 135, 100) 0vh, rgba(0, 149, 135, 100) 20vh, rgba(220, 219, 208, 100) 20vh, rgba(220, 219, 208, 100) 100vh);
+}
+
+/* background */
+
+
+/* web app structure */
+
+main {
+    position: relative;
+}
+
+#app {
+    background-color: cornflowerblue;
+    width: 80%;
+    height: 80vh;
+    margin: 0 auto;
+    margin-top: 5em;
+}
+
+.contact-section {
+    float: left;
+    width: 25%;
+    height: 100%;
+    background-color: rebeccapurple;
+}
+
+.message-section {
+    float: right;
+    width: 75%;
+    height: 100%;
+    background-color: green;
+}
+
+/* web app structure */
+
+
+
+/* header of two section */
+
+.nav {
+    background-color: red;
+    height: 60px;
+}
+
+.alert-message {
+    height: 80px;
+    background-color: crimson;
+}
+
+/* header of two section */
+
+
+
+/* contact list */
+
+.contact-list {
+    list-style: none;
+    background-color: darkgoldenrod;
+    padding-left: 0;
+}
+
+.contact-list-item {
+    display: flex;
+    padding: 10px 10px 10px 20px;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    max-width: 55px;
+}
+
+.profile-pic-default {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0CD977;
+    height: 60px;
+    width: 60px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.profile-pic-default span {
+    font-weight: bold;
+    color: #023047;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.contact-meta__data {
+    margin-left: 0.6em;
+}
+
+.contact-meta__name {
+    font-size: 0.9em;
+    font-weight: 700;
+}
+
+.contact-meta__mess, .contact-meta__time {
+    font-size: 0.85em;
+    line-height: 0.85em;
+    color: rgb(73, 73, 73);
+}
+
+.contact-meta__date {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 40%;
+    padding-top: 3px;
+}
+
+.contact-meta__time {
+    line-height: 1em;
+}
