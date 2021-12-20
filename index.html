@@ -49,133 +49,22 @@
                 </div>
 
 
-                <div class="alert-message">
-                    <div class="contact-meta__icon nav-item">
-                        <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
-                    </div>
-                    <div class="contact-meta__data nav-item">
-                        <div class="contact-meta__name">Phil Mangione</div>
-                        <div class="contact-meta__mess">4 mesi fa</div>
-                    </div>
+                <div class="search">
+                    <label for="search" class="search-icon">
+                        <i class="fa fa-search"></i>
+                    </label>
+                    <input type="text" placeholder="Cerca o inizia una nuova chat" name="search" class="insert-search">
                 </div>
 
 
                 <div class="list-box">
                     <ul class="contact-list">
-                        <li class="contact-list-item">
+                        <li class="contact-list-item" v-for="(element, index) in contacts">
                             <div class="contact-meta__icon">
-                                <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
+                                <img class="profile-pic" :src="`img/avatar${element.avatar}.jpg`">                    
                             </div>
                             <div class="contact-meta__data">
-                                <div class="contact-meta__name">Phil Mangione</div>
-                                <div class="contact-meta__mess">4 mesi fa</div>
-                            </div>
-                            <div class="contact-meta__date">
-                                <div class="contact-meta__time">20/12/2021</div>
-                            </div>
-                        </li>
-                        <li class="contact-list-item">
-                            <div class="contact-meta__icon">
-                                <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
-                            </div>
-                            <div class="contact-meta__data">
-                                <div class="contact-meta__name">Phil Mangione</div>
-                                <div class="contact-meta__mess">4 mesi fa</div>
-                            </div>
-                            <div class="contact-meta__date">
-                                <div class="contact-meta__time">20/12/2021</div>
-                            </div>
-                        </li>
-                        <li class="contact-list-item">
-                            <div class="contact-meta__icon">
-                                <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
-                            </div>
-                            <div class="contact-meta__data">
-                                <div class="contact-meta__name">Phil Mangione</div>
-                                <div class="contact-meta__mess">4 mesi fa</div>
-                            </div>
-                            <div class="contact-meta__date">
-                                <div class="contact-meta__time">20/12/2021</div>
-                            </div>
-                        </li>
-                        <li class="contact-list-item">
-                            <div class="contact-meta__icon">
-                                <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
-                            </div>
-                            <div class="contact-meta__data">
-                                <div class="contact-meta__name">Phil Mangione</div>
-                                <div class="contact-meta__mess">4 mesi fa</div>
-                            </div>
-                            <div class="contact-meta__date">
-                                <div class="contact-meta__time">20/12/2021</div>
-                            </div>
-                        </li>
-                        <li class="contact-list-item">
-                            <div class="contact-meta__icon">
-                                <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
-                            </div>
-                            <div class="contact-meta__data">
-                                <div class="contact-meta__name">Phil Mangione</div>
-                                <div class="contact-meta__mess">4 mesi fa</div>
-                            </div>
-                            <div class="contact-meta__date">
-                                <div class="contact-meta__time">20/12/2021</div>
-                            </div>
-                        </li>
-                        <li class="contact-list-item">
-                            <div class="contact-meta__icon">
-                                <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
-                            </div>
-                            <div class="contact-meta__data">
-                                <div class="contact-meta__name">Phil Mangione</div>
-                                <div class="contact-meta__mess">4 mesi fa</div>
-                            </div>
-                            <div class="contact-meta__date">
-                                <div class="contact-meta__time">20/12/2021</div>
-                            </div>
-                        </li>
-                        <li class="contact-list-item">
-                            <div class="contact-meta__icon">
-                                <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
-                            </div>
-                            <div class="contact-meta__data">
-                                <div class="contact-meta__name">Phil Mangione</div>
-                                <div class="contact-meta__mess">4 mesi fa</div>
-                            </div>
-                            <div class="contact-meta__date">
-                                <div class="contact-meta__time">20/12/2021</div>
-                            </div>
-                        </li>
-                        <li class="contact-list-item">
-                            <div class="contact-meta__icon">
-                                <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
-                            </div>
-                            <div class="contact-meta__data">
-                                <div class="contact-meta__name">Phil Mangione</div>
-                                <div class="contact-meta__mess">4 mesi fa</div>
-                            </div>
-                            <div class="contact-meta__date">
-                                <div class="contact-meta__time">20/12/2021</div>
-                            </div>
-                        </li>
-                        <li class="contact-list-item">
-                            <div class="contact-meta__icon">
-                                <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
-                            </div>
-                            <div class="contact-meta__data">
-                                <div class="contact-meta__name">Phil Mangione</div>
-                                <div class="contact-meta__mess">4 mesi fa</div>
-                            </div>
-                            <div class="contact-meta__date">
-                                <div class="contact-meta__time">20/12/2021</div>
-                            </div>
-                        </li>
-                        <li class="contact-list-item">
-                            <div class="contact-meta__icon">
-                                <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
-                            </div>
-                            <div class="contact-meta__data">
-                                <div class="contact-meta__name">Phil Mangione</div>
+                                <div class="contact-meta__name">{{element.name}}</div>
                                 <div class="contact-meta__mess">4 mesi fa</div>
                             </div>
                             <div class="contact-meta__date">
@@ -209,6 +98,32 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="message-container">
+                    <div class="card-container">
+                        <div v-for="(message, index) in contacts[0].messages" class="card-message" :class="(message.status == 'sent') ? 'sent' : 'received'" class="card-message">
+                            <span class="text-card">
+                                {{message.text}}
+                            </span>
+                            <span class="date-card">
+                                {{message.date}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="message-interaction">
+                    <button class="message-item ms-3">
+                        <i class="fa-solid fa-face-smile"></i>
+                    </button>
+                   
+                    <input type="text" class="send-message-insert">
+                    
+                    <button class="message-item me-3">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                </div>
+                
             </section>
 
         </div>
