@@ -24,6 +24,7 @@ main {
     width: 80%;
     height: 80vh;
     margin: 0 auto;
+    overflow: hidden;
     margin-top: 5em;
 }
 
