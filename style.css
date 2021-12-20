@@ -32,7 +32,6 @@ main {
     width: 25%;
     height: 100%;
     background-color: white;
-    overflow: hidden;
     min-height: 100px;
 }
 
@@ -60,6 +59,10 @@ main {
     display: flex;
     background-color: #8EDAFC;
     padding: 15px;
+}
+
+.search {
+    display: flex;
 }
 
 .nav-item {
@@ -95,6 +98,14 @@ main {
     color: #B1B1B1;
 }
 
+.contact-section .my-nav .contact-meta__data {
+    width: 100%;
+}
+
+.message-section .contact-meta__data {
+    width: 50%;
+}
+
 /* header of two section */
 
 
@@ -102,13 +113,17 @@ main {
 /* contact list */
 
 .list-box {
-    min-height: 120px;
-    overflow: auto;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .contact-list {
+    height: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
     list-style: none;
     padding-left: 0;
+    margin-bottom: 0;
 }
 
 .contact-list-item {
