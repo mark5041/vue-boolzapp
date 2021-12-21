@@ -65,7 +65,8 @@
                             </div>
                             <div class="contact-meta__data">
                                 <div class="contact-meta__name">{{element.name}}</div>
-                                <div class="contact-meta__mess">{{element.messages[element.messages.length - 1].text}}</div>
+                                <div v-if="element.state == 'Stà scrivendo ...'" class="contact-meta__mess">{{element.state}}</div>
+                                <div v-else class="contact-meta__mess">{{element.messages[element.messages.length - 1].text}}</div>
                             </div>
                             <div class="contact-meta__date">
                                 <div class="contact-meta__time">20/12/2021</div>
@@ -79,10 +80,12 @@
             <section class="message-section">
                 <div class="my-nav">
                     <div class="contact-meta__icon nav-item">
-                        <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
+                        <img class="profile-pic" :src="`img/avatar${contacts[active].avatar}.jpg`" alt="Phil Mangione">                    
                     </div>
                     <div class="contact-meta__data nav-item">
-                        <div class="contact-meta__name">Phil Mangione</div>
+                        <div class="contact-meta__name">{{contacts[active].name}}</div>
+                        <div v-if="contacts[active].state != ''" class="contact-meta__mess">{{contacts[active].state}}</div>
+                        <div v-else class="contact-meta__mess">Online</div>
                     </div>
                     <div class="contact-meta__button">
                         <div class="button-box">
@@ -119,7 +122,7 @@
                         <i class="fa-solid fa-face-smile"></i>
                     </button>
                    
-                    <input v-model="message" @focus="" @keyup.enter="newMessage" type="text" class="send-message-insert" placeholder="Scrivi un messaggio">
+                    <input v-model="message" @focus="onWrite(contacts[active])" @blur="noWrite(contacts[active])" @keyup.enter="newMessage" type="text" class="send-message-insert" placeholder="Scrivi un messaggio">
                     
                     <button class="message-item me-3">
                         <i class="fa-solid fa-microphone"></i>

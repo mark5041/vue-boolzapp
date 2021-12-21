@@ -101,6 +101,16 @@ const app = new Vue (
             ]
         },
         methods: {
+            onWrite:
+                function(array)
+                {
+                    array.state = "Stai scrivendo ...";
+                },
+            noWrite:
+                function(array)
+                {
+                    array.state = "";
+                },
             selected: 
                 function(index) 
                 {
@@ -123,10 +133,13 @@ const app = new Vue (
                             status: "received",
                         };
                         Obj.push(newObj);
+                        this.message = '';
+                        this.contacts[this.active].state = "Stà scrivendo ...";
                         setTimeout(event => 
                             {
+                                this.contacts[this.active].state = "";
                                 Obj.push(newAnswer);
-                            }, 1000);
+                            }, 2000);
                     }
                     else
                     {
