@@ -59,7 +59,7 @@
 
                 <div class="list-box">
                     <ul class="contact-list">
-                        <li class="contact-list-item" v-for="(element, index) in contacts">
+                        <li @click="selected(index)" class="contact-list-item" v-for="(element, index) in contacts">
                             <div class="contact-meta__icon">
                                 <img class="profile-pic" :src="`img/avatar${element.avatar}.jpg`">                    
                             </div>
@@ -117,7 +117,7 @@
                         <i class="fa-solid fa-face-smile"></i>
                     </button>
                    
-                    <input type="text" class="send-message-insert">
+                    <input type="text" class="send-message-insert" placeholder="">
                     
                     <button class="message-item me-3">
                         <i class="fa-solid fa-microphone"></i>

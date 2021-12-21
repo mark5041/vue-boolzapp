@@ -2,6 +2,26 @@ html {
     font-size: 100%;
 }
 
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(195, 195, 195); 
+    border-radius: 20px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(184, 184, 184); 
+  }
+
 input:focus {
     outline:none;
 }
@@ -28,13 +48,13 @@ main {
     width: 80%;
     height: 80vh;
     margin: 0 auto;
-    overflow: hidden;
     margin-top: 5em;
+    overflow-x: auto;
 }
 
 .contact-section {
     float: left;
-    width: 25%;
+    width: 350px;
     height: 100%;
     background-color: white;
     min-height: 100px;
@@ -43,7 +63,7 @@ main {
 
 .message-section {
     float: right;
-    width: 75%;
+    width: calc(100% - 350px);
     height: 100%;
 }
 
@@ -71,6 +91,7 @@ main {
     padding: 15px;
     align-content: center;
     position: relative;
+    background-color: #f3eeea;
 }
 
 .search-icon {
@@ -83,6 +104,7 @@ main {
 .insert-search {
     width: 100%;
     padding: 10px 0px 10px 40px;
+    border: none;
     border-radius: 50px;
 }
 
@@ -97,10 +119,8 @@ main {
 }
 
 .contact-meta__button {
-    width: 100%;
     display: flex;
     flex-direction: row-reverse;
-    float: right;
 }
 
 .button-box {
@@ -123,11 +143,11 @@ button > i {
 }
 
 .contact-section .my-nav .contact-meta__data {
-    width: 100%;
+    flex-grow: 1;
 }
 
 .message-section .contact-meta__data {
-    width: 50%;
+    flex-grow: 1;
 }
 
 /* header of two section */
@@ -138,7 +158,7 @@ button > i {
 
 .list-box {
     height: calc(100% - 248px);
-    overflow: auto;
+    overflow-y: auto;
 }
 
 .contact-list {
@@ -198,8 +218,9 @@ button > i {
 
 .contact-meta__date {
     display: flex;
+    flex-grow: 1;
     flex-direction: row-reverse;
-    width: 42%;
+    justify-content: end;
     padding-top: 3px;
 }
 
@@ -217,7 +238,7 @@ button > i {
     width: 100%;
     height: calc(100% - 145px);
     background-image: url(img/mine.jpg);
-    overflow: auto;
+    overflow-y: auto;
 }
 
 .card-container {
@@ -226,7 +247,6 @@ button > i {
     width: 100%;
     height: 100%;
     padding: 2em 10%;
-    overflow: auto;
 }
 
 .card-message {
