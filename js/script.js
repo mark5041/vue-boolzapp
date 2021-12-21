@@ -25,6 +25,26 @@ const app = new Vue (
                             date: "10/01/2020 16:15:22",
                             text: "Tutto fatto!",
                             status: "received",
+                        },
+                        {
+                            date: "10/01/2020 15:50:00",
+                            text: "Ricordati di dargli da mangiare",
+                            status: "sent",
+                        },
+                        {
+                            date: "10/01/2020 16:15:22",
+                            text: "Tutto fatto!",
+                            status: "received",
+                        },
+                        {
+                            date: "10/01/2020 15:50:00",
+                            text: "Ricordati di dargli da mangiare",
+                            status: "sent",
+                        },
+                        {
+                            date: "10/01/2020 16:15:22",
+                            text: "Tutto fatto!",
+                            status: "received",
                         }
                     ],
                 },
@@ -121,25 +141,31 @@ const app = new Vue (
                 {
                     if(this.message != '')
                     {
+                        let d = new Date();
                         let Obj = this.contacts[this.active].messages;
                         let newObj = {
-                            date: "ciao",
+                            date: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes() + 1}:${d.getSeconds()}`,
                             text: this.message,
                             status: "sent",
                         };
-                        let newAnswer = {
-                            date: "ciao",
-                            text: 'ok',
-                            status: "received",
-                        };
+
                         Obj.push(newObj);
                         this.message = '';
                         this.contacts[this.active].state = "Stà scrivendo ...";
                         setTimeout(event => 
                             {
+                                
+                                let d = new Date();
+                                let newAnswer = {
+                                    date: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes() + 1}:${d.getSeconds()}`,
+                                    text: 'ok',
+                                    status: "received",
+                                };
                                 this.contacts[this.active].state = "";
                                 Obj.push(newAnswer);
+                                console.log();
                             }, 2000);
+                            
                     }
                     else
                     {
@@ -149,7 +175,8 @@ const app = new Vue (
         },
         created() 
         {
-            console.log(this.active);
+            var container = this.$el.querySelector(".message-container");
+            container.scrollTop = container.scrollHeight - 1;
         }
     }
 )

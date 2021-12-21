@@ -103,15 +103,13 @@
                 </div>
 
                 <div class="message-container">
-                    <div class="card-container">
-                        <div v-for="(message, index) in contacts[active].messages" class="card-message" :class="(message.status == 'sent') ? 'sent' : 'received'" class="card-message">
-                            <span class="text-card">
-                                {{message.text}}
-                            </span>
-                            <span class="date-card">
-                                {{message.date}}
-                            </span>
-                        </div>
+                    <div v-for="(message, index) in contacts[active].messages" class="card-message" :class="(message.status == 'sent') ? 'sent' : 'received'" class="card-message">
+                        <span class="text-card">
+                            {{message.text}}
+                        </span>
+                        <span class="date-card">
+                            {{message.date}}
+                        </span>
                     </div>
                 </div>
 
