@@ -3,11 +3,13 @@ const app = new Vue (
         el: '#app',
         data: {
             active: 0,
+            message: '',
             contacts: [
                 {
                     name: "Michele",
                     avatar: "_1",
                     visible: true,
+                    state: '',
                     messages: [
                         {
                             date: "10/01/2020 15:30:55",
@@ -30,6 +32,7 @@ const app = new Vue (
                     name: "Fabio",
                     avatar: "_2",
                     visible: false,
+                    state: '',
                     messages: [
                         {
                             date: "20/03/2020 16:30:00",
@@ -53,6 +56,7 @@ const app = new Vue (
                     name: "Samuele",
                     avatar: "_3",
                     visible: false,
+                    state: '',
                     messages: [
                         {
                             date: "28/03/2020 10:10:40",
@@ -75,6 +79,7 @@ const app = new Vue (
                     name: "Giacomo",
                     avatar: "_4",
                     visible: false,
+                    state: '',
                     messages: [
                         {
                             date: "10/01/2020 15:30:55",
@@ -100,11 +105,38 @@ const app = new Vue (
                 function(index) 
                 {
                     this.active = index;
+                },
+            newMessage: 
+                function()
+                {
+                    if(this.message != '')
+                    {
+                        let Obj = this.contacts[this.active].messages;
+                        let newObj = {
+                            date: "ciao",
+                            text: this.message,
+                            status: "sent",
+                        };
+                        let newAnswer = {
+                            date: "ciao",
+                            text: 'ok',
+                            status: "received",
+                        };
+                        Obj.push(newObj);
+                        setTimeout(event => 
+                            {
+                                Obj.push(newAnswer);
+                            }, 1000);
+                    }
+                    else
+                    {
+                        this.message = '';
+                    }
                 }
         },
         created() 
         {
-            console.log(active);
+            console.log(this.active);
         }
     }
 )
