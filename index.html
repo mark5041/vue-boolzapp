@@ -59,7 +59,7 @@
 
                 <div class="list-box">
                     <ul class="contact-list">
-                        <li @click="selected(index)" class="contact-list-item" v-for="(element, index) in contacts">
+                        <li @click="selected(index)" class="contact-list-item" :class="(active == index) ? 'active' : ''" v-for="(element, index) in contacts">
                             <div class="contact-meta__icon">
                                 <img class="profile-pic" :src="`img/avatar${element.avatar}.jpg`">                    
                             </div>
@@ -101,7 +101,7 @@
 
                 <div class="message-container">
                     <div class="card-container">
-                        <div v-for="(message, index) in contacts[0].messages" class="card-message" :class="(message.status == 'sent') ? 'sent' : 'received'" class="card-message">
+                        <div v-for="(message, index) in contacts[active].messages" class="card-message" :class="(message.status == 'sent') ? 'sent' : 'received'" class="card-message">
                             <span class="text-card">
                                 {{message.text}}
                             </span>

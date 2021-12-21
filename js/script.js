@@ -2,6 +2,7 @@ const app = new Vue (
     {
         el: '#app',
         data: {
+            active: 0,
             contacts: [
                 {
                     name: "Michele",
@@ -42,7 +43,7 @@ const app = new Vue (
                         },
                         {
                             date: "20/03/2020 16:35:00",
-                            text: "Mi piacerebbe ma devo andare a fare la spesa.",
+                            text: "Mi piacerebbe, ma devo andare a fare la spesa.",
                             status: "sent",
                         }
                     ],
@@ -98,11 +99,12 @@ const app = new Vue (
             selected: 
                 function(index) 
                 {
-                    this.contacts[index];
+                    this.active = index;
                 }
         },
         created() 
         {
+            console.log(active);
         }
     }
 )

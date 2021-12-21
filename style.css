@@ -172,6 +172,11 @@ button > i {
 .contact-list-item {
     display: flex;
     padding: 10px 10px 10px 20px;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #E9EBEB;
 }
 
 .contact-list-item:hover {
