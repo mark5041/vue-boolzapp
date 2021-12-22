@@ -3,6 +3,7 @@ const app = new Vue (
         el: '#app',
         data: {
             active: 0,
+            search: '',
             message: '',
             contacts: [
                 {
@@ -51,7 +52,7 @@ const app = new Vue (
                 {
                     name: "Fabio",
                     avatar: "_2",
-                    visible: false,
+                    visible: true,
                     state: '',
                     messages: [
                         {
@@ -75,7 +76,7 @@ const app = new Vue (
                 {
                     name: "Samuele",
                     avatar: "_3",
-                    visible: false,
+                    visible: true,
                     state: '',
                     messages: [
                         {
@@ -98,7 +99,7 @@ const app = new Vue (
                 {
                     name: "Giacomo",
                     avatar: "_4",
-                    visible: false,
+                    visible: true,
                     state: '',
                     messages: [
                         {
@@ -171,12 +172,42 @@ const app = new Vue (
                     {
                         this.message = '';
                     }
+                },
+            filtredArray: 
+                function(string)
+                {
+                    
                 }
         },
-        created() 
+        watch: 
         {
-            var container = this.$el.querySelector(".message-container");
-            container.scrollTop = container.scrollHeight - 1;
+            search: 
+            function()
+            {
+                if(this.search != '')
+                {
+                    let filtered = this.contacts.filter((element) => {
+                        return element.name.toLowerCase().indexOf(this.search) > -1;
+                    });
+        
+                    this.contacts.forEach(element => {
+                        if(filtered.includes(element))
+                        {
+                            element.visible = true;
+                        }
+                        else
+                        {
+                            element.visible = false;
+                        }
+                    });
+                }
+                else 
+                {
+                    this.contacts.forEach(element => {
+                        element.visible = true;
+                    });
+                }
+            }
         }
     }
 )

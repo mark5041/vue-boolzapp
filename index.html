@@ -53,13 +53,14 @@
                     <label for="search" class="search-icon">
                         <i class="fa fa-search"></i>
                     </label>
-                    <input type="text" placeholder="Cerca o inizia una nuova chat" name="search" class="insert-search">
+                    <input type="text" v-model="search" placeholder="Cerca o inizia una nuova chat" name="search" class="insert-search">
                 </div>
 
 
                 <div class="list-box">
                     <ul class="contact-list">
-                        <li @click="selected(index)" class="contact-list-item" :class="(active == index) ? 'active' : ''" v-for="(element, index) in contacts">
+
+                        <li  @click="selected(index)"  v-for="(element, index) in contacts" v-show="element.visible" class="contact-list-item" :class="(active == index) ? 'active' : ''">
                             <div class="contact-meta__icon">
                                 <img class="profile-pic" :src="`img/avatar${element.avatar}.jpg`">                    
                             </div>
