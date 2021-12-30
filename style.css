@@ -114,8 +114,21 @@ main {
     justify-content: center;
 }
 
-.nav > .contact-meta__icon {
-    margin-left: 0.9em;
+.alert-message .contact-meta__icon {
+    border-radius: 50px;
+    background-color: white;
+    margin: 0 0.4em;
+}
+
+.alert-message .contact-meta__icon i {
+    font-size: 1.5em;
+    color: #8EDAFC;
+    padding: 10px 6px;
+}
+
+.alert-message .contact-meta__mess {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .contact-meta__button {
@@ -250,6 +263,7 @@ button > i {
 }
 
 .card-message {
+    position: relative;
     display: flex;
     flex-direction: column;
     margin: 0.5em 0;
@@ -270,14 +284,40 @@ button > i {
     font-size: 0.7em;
 }
 
+.chevron {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    display: none;
+}
+
+.card-message:hover .chevron {
+    display: block;
+    cursor: pointer;
+}
+
+.tail-message-sent {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+}
+
+.tail-message-rece {
+    position: absolute;
+    left: -8px;
+    top: -8px;
+}
+
 .sent {
     align-self: flex-end;
     background-color: #D5F9BA;
+    border-top-right-radius: 0;
 }
 
 .received {
     align-self: flex-start;
     background-color: #FFFFFF;
+    border-top-left-radius: 0;
 }
 
 .message-interaction {
@@ -297,5 +337,44 @@ button > i {
     border-radius: 10px;
 }
 
-
 /* message section */
+
+
+
+/* message interaction */
+
+.interaction-mod {
+    position: absolute;
+    background-color: rgb(245, 245, 245);
+    top: 35px;
+    right: 15px;
+    z-index: 10;
+    transform: translateY(-10px);
+    transition: all 0.2s ease-in;
+}
+
+.list-interaction {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.list-item-interaction {
+    padding: 15px 35px;
+    margin: 0.3px;
+    cursor: pointer;
+}
+
+.list-item-interaction:hover {
+    background-color: rgb(211, 211, 211);
+}
+
+/* 
+.chevron:focus + .interaction-mod {
+    pointer-events: all;
+    transform: translateY(0px);
+    opacity: 1;
+} 
+*/
+
+/* message interaction */

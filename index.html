@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -40,11 +41,11 @@
                 
                 <div class="alert-message">
                     <div class="contact-meta__icon nav-item">
-                        <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
+                        <i class="fa-solid fa-bell-slash"></i>                
                     </div>
                     <div class="contact-meta__data nav-item">
-                        <div class="contact-meta__name">Phil Mangione</div>
-                        <div class="contact-meta__mess">4 mesi fa</div>
+                        <div class="contact-meta__name">Ricevi notifiche di nuovi messaggi</div>
+                        <div class="contact-meta__mess">Attiva notifiche desktop</div>
                     </div>
                 </div>
 
@@ -103,13 +104,42 @@
                     </div>
                 </div>
 
+
+                <!-- (index == 0 || contacts[active].messages[index - 1].status != contacts[active].messages[index]) ? (contacts[active].messages[index - 1].status == 'sent') ? 'first-sent' : 'first-rece' : ' '  -->
+
+
                 <div class="message-container">
-                    <div v-for="(message, index) in contacts[active].messages" class="card-message" :class="(message.status == 'sent') ? 'sent' : 'received'" class="card-message">
+                    <div v-for="(message, index) in contacts[active].messages" :key="index" :class="(message.status == 'sent') ? 'sent' : 'received'" class="card-message">
                         <span class="text-card">
                             {{message.text}}
                         </span>
                         <span class="date-card">
                             {{message.date}}
+                        </span>
+                        <button @click="message.mod = !message.mod" @blur="message.mod = !message.mod" class="chevron">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave" v-bind:css="false">
+
+                        <div v-show="message.mod" class="interaction-mod">
+                            <ul class="list-interaction">
+                                <li class="list-item-interaction">Delete</li>
+                                <li class="list-item-interaction">Modify</li>
+                            </ul>
+                        </div>
+
+                        </transition>
+                        <span  v-if="message.status == 'sent'" class="tail-message-sent">
+                            <svg viewBox="0 0 8 13" width="8" height="13" class="">
+                                <path opacity=".13" d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z"></path>
+                                <path fill="#D5F9BA" d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z"></path>
+                            </svg>
+                        </span>
+                        <span v-else data-testid="tail-in" data-icon="tail-in" class="tail-message-rece">
+                            <svg viewBox="0 0 8 13" width="8" height="13" class="">
+                                <path opacity=".13" fill="#0000000" d="M1.533 3.568L8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path>
+                                <path fill="#FFFFFF" d="M1.533 2.568L8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
+                            </svg>
                         </span>
                     </div>
                 </div>
@@ -131,6 +161,8 @@
             </section>
         </div>
     </main>
+
+    
 
     <script src="js/script.js"></script>
 </body>
