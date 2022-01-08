@@ -2,7 +2,11 @@ const app = new Vue (
     {
         el: '#app',
         data: {
-            active: 0,
+            load: true,
+            mic: true,
+            active: null,
+            zoom: false,
+            dark: false,
             search: '',
             message: '',
             receving: false,
@@ -10,9 +14,10 @@ const app = new Vue (
                 {
                     name: "Michele",
                     avatar: "_1",
+                    menu: false,
                     visible: true,
                     state: '',
-                    chatLength: 7,
+                    lastAccess: 'il 10/01/2020',
                     messages: [
                         {
                             date: "10/01/2020 15:30:55",
@@ -61,8 +66,10 @@ const app = new Vue (
                 {
                     name: "Fabio",
                     avatar: "_2",
+                    menu: false,
                     visible: true,
                     state: '',
+                    lastAccess: 'il 20/03/2020',
                     messages: [
                         {
                             date: "20/03/2020 16:30:00",
@@ -84,12 +91,13 @@ const app = new Vue (
                         }
                     ],
                 },
-
                 {
                     name: "Samuele",
                     avatar: "_3",
+                    menu: false,
                     visible: true,
                     state: '',
+                    lastAccess: 'il 28/03/2020',
                     messages: [
                         {
                             date: "28/03/2020 10:10:40",
@@ -114,8 +122,10 @@ const app = new Vue (
                 {
                     name: "Giacomo",
                     avatar: "_4",
+                    menu: false,
                     visible: true,
                     state: '',
+                    lastAccess: 'il 10/01/2020',
                     messages: [
                         {
                             date: "10/01/2020 15:30:55",
@@ -137,11 +147,45 @@ const app = new Vue (
                         }
                     ],
                 },
-            ]
+            ],
+            IAsendingmessages: 
+            {
+                position: 0,
+                messageLibrary: [
+                    {
+                        message: [
+                            "hai tre secondi per dirmi chi sei, altrimenti chiamo la polizia.",
+                            "hai sbagliato numero",
+                            "chi sei?",
+                            "sono un carabiniere, dimmi chi sei oppure ci saranno conseguenze"
+                        ]
+                    },
+                    {
+                        message: [
+                            "continua pure, io sto già componendo il numero della polizia",
+                            "ti piace davvero disturbare le persone",
+                            "non hai niente di più importante da fare?",
+                            "ma scusa, quanti anni hai per curiosità",
+                            "ti piace sprecare tempo vero?",
+                            "c'è gente che ha di meglio da fare, perciò smettila",
+                            "non farmi arrabbiare",
+                            "non fare il maleducato, altrimenti chiamo la polizia!"
+                        ]
+                    },
+                    {
+                        message: [
+                            "ti blocco",
+                            "ti vengo sotto casa",
+                            "ti ho appena mandato i sicari sotto casa, preparati",
+                            "ti sei appena fatto un nemico potente"
+                        ]
+                    },
+                ],
+            },
         },
         methods: {
 
-            // animation
+            // animation app
             beforeEnter: 
                 function (el) 
                 {
@@ -151,13 +195,13 @@ const app = new Vue (
             enter: 
                 function (el, done) 
                 {
-                    Velocity(el, { opacity: 1, translateY: '0px' }, { duration: 200 })
-                    Velocity(el, { fontSize: '1em' }, { complete: done })
+                    Velocity(el, { opacity: 1, translateY: '0px' }, { duration: 200 }, { complete: done })
                 },
             leave: 
                 function (el, done) 
                 {
-                    Velocity(el, { translateY: '-12px', opacity: 0}, { duration: 200 }, { complete: done })
+                    Velocity(el, { translateY: '-12px', opacity: 0}, { duration: 200 })
+                    Velocity(el, { display: 'none' }, { complete: done })
                 },
             // animation
 
@@ -169,17 +213,28 @@ const app = new Vue (
             onWrite:
                 function(array)
                 {
-                    array.state = "Stai scrivendo ...";
-                },
-            noWrite:
-                function(array)
-                {
-                    array.state = "";
+                    if(array.state == "" && this.message != '')
+                    {
+                        array.state = "Stai scrivendo ...";
+                    }
+                    else
+                    {
+                        array.state = "";
+                    }
                 },
             selected: 
                 function(index) 
                 {
                     this.active = index;
+                    this.IAsendingmessages.position = 0;
+                },
+            getIAmess:
+                function()
+                {
+                    let newMess;
+                    let array = this.IAsendingmessages.messageLibrary[this.IAsendingmessages.position].message;
+                    let max = array.length;
+                    return newMess = array[Math.floor(Math.random() * max)];
                 },
             newMessage: 
                 function()
@@ -187,41 +242,105 @@ const app = new Vue (
                     let Obj = this.contacts[this.active].messages;
                     if(this.onlySpaces(this.message) == false)
                     {
-                        let d = new Date();
+                        let now = dayjs();
+                        const data = `${now.format('DD/MM/YYYY HH:mm:ss')}`;
                         let newObj = {
-                            date: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes() + 1}:${d.getSeconds()}`,
+                            date: data,
                             text: this.message,
                             status: "sent",
+                            mod: false,
                         };
 
+                        console.log(data);
                         Obj.push(newObj);
-                        this.contacts[this.active].state = "Stà scrivendo ...";
-                        if(!this.receving)
+                        this.contacts[this.active].state = "online";
+                        if(this.receving == false)
                         {
-                            let recevingMess = setTimeout(event => 
-                                {
-                                    let d = new Date();
+                            setTimeout(event => {
+                                this.contacts[this.active].state = "Stà scrivendo ...";
+                                setTimeout(event => {
+                                    let mess = this.getIAmess();
+                                    let now = dayjs();
+                                    const data = `${now.format('DD/MM/YYYY HH:mm:ss')}`;
                                     let newAnswer = {
-                                        date: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes() + 1}:${d.getSeconds()}`,
-                                        text: 'ok',
+                                        date: data,
+                                        text: mess,
                                         status: "received",
+                                        mod: false,
                                     };
-                                    this.contacts[this.active].state = "";
+                                    this.IAsendingmessages.position++;
+                                    if(this.IAsendingmessages.position == 4)
+                                    {
+                                        this.IAsendingmessages.position = 0;
+                                    }
+                                    this.contacts[this.active].state = "online";
                                     Obj.push(newAnswer);
-                                    this.receving = false;
+                                    setTimeout(event => {
+                                        this.contacts[this.active].state = "";
+                                        this.receving = false;
+                                    }, 3000)
     
                                 }, 2000);
-                                this.receving = true;
+                                
+                            }, 2000)
+                            this.receving = true;
                         }
                     }
                     this.message = '';
                 },
-            nextElement: 
-                function(element, index)
+            lastDate:
+                function(index, type)
                 {
-                    return element[index + 1];
+                    let now = dayjs();
+                    const hours = `${now.format('HH:mm')}`;
+                    const day = `${now.format('DD/MM/YYYY')}`;
+
+                    if(type == "contact")
+                    {
+                        const leng = this.contacts[index].messages.length - 1;
+                        let Obj = this.contacts[index].messages[leng].date;
+                        let ObjDay = Obj.split(' ');
+                        if(ObjDay[0] != day)
+                        {
+                            return ObjDay[0];
+                        }
+                        else
+                        {
+                            let hour = ObjDay[1].split(':')
+                            return `${hour[0]}:${hour[1]}`;
+                        }
+                    }
+                    else    if(type == "message")
+                            {
+                                let Obj = this.contacts[this.active].messages[index].date;
+                                let ObjDay = Obj.split(' ');
+                                if(ObjDay[0] != day)
+                                {
+                                    return ObjDay[0];
+                                }
+                                else
+                                {
+                                    let hour = ObjDay[1].split(':')
+                                    return `${hour[0]}:${hour[1]}`;
+                                }
+                            }
                 },
-            
+            deleteMesssage:
+                function(index)
+                {
+                    this.contacts[this.active].messages.splice(index, 1);
+                },
+            deleteAllMess:
+                function()
+                {
+                    this.contacts[this.active].messages = [];
+                },
+            deleteChat:
+                function()
+                {
+                    this.contacts.splice(this.active, 1);
+                    this.active = null;
+                },
         },
         watch: 
         {
@@ -256,188 +375,101 @@ const app = new Vue (
                 function()
                 {
                     console.log(this.receving);
+                    if(this.receving == false)
+                    {
+                        let now = dayjs().add(3000, 'millisecond');
+                        const hours = `${now.format('HH:mm')}`;
+                        const day = `${now.format('DD/MM/YYYY')}`;
+
+                        let Obj = this.contacts[this.active];
+                        let max = Obj.messages.length;
+
+                        let Objdate = Obj.messages[max - 1].date.split(' ');
+                        if(Objdate[0] != day)
+                        {
+                            Obj.lastAccess = ` il ${this.ObjDay[0]}`;
+                        }
+                        else
+                        {
+                            Obj.lastAccess = ` oggi alle ${hours}`;
+                        }
+                        
+                    }
                 },
-        //     active:
-        //         function()
-        //         {
-        //             let container = document.querySelector(".message-container");
-        //             let Obj = this.contacts[this.active].messages;
-        //             let classes;
-        //             let tail;
-        //             container.innerHTML = '';
-        //             Obj.forEach((element, index, array) => {
-        //                 if(index == 0)
-        //                 {
-        //                     if(element.status == "sent")
-        //                     {
-        //                         classes = "sent first-sent";
-        //                         tail = `<span class="tail-message-sent">
-        //                                     <svg viewBox="0 0 8 13" width="8" height="13" class="">
-        //                                         <path opacity=".13" d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z"></path>
-        //                                         <path fill="#D5F9BA" d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z"></path>
-        //                                     </svg>
-        //                                 </span>`;
-        //                     }
-        //                     else
-        //                     {
-        //                         classes = "received first-rece";
-        //                         tail = `<span data-testid="tail-in" data-icon="tail-in" class="tail-message-rece">
-        //                                     <svg viewBox="0 0 8 13" width="8" height="13" class="">
-        //                                         <path opacity=".13" fill="#0000000" d="M1.533 3.568L8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path>
-        //                                         <path fill="#FFFFFF" d="M1.533 2.568L8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
-        //                                     </svg>
-        //                                 </span>`;
-        //                     }
-        //                 }
-        //                 else    if(element.status == "sent")
-        //                         {
-        //                             classes = "sent";
-        //                             if(array[index - 1].status != element.status)
-        //                             {
-        //                                 classes += " first-sent";
-        //                                 tail = `<span class="tail-message-sent">
-        //                                             <svg viewBox="0 0 8 13" width="8" height="13" class="">
-        //                                                 <path opacity=".13" d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z"></path>
-        //                                                 <path fill="#D5F9BA" d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z"></path>
-        //                                             </svg>
-        //                                         </span>`;
-        //                             }
-        //                             else
-        //                             {
-        //                                 tail = ''; 
-        //                             }
-        //                         }
-        //                         else
-        //                         {
-        //                             classes = "received";
-        //                             if(array[index - 1].status != element.status)
-        //                             {
-        //                                 classes += " first-rece";
-        //                                 tail = `<span data-testid="tail-in" data-icon="tail-in" class="tail-message-rece">
-        //                                             <svg viewBox="0 0 8 13" width="8" height="13" class="">
-        //                                                 <path opacity=".13" fill="#0000000" d="M1.533 3.568L8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path>
-        //                                                 <path fill="#FFFFFF" d="M1.533 2.568L8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
-        //                                             </svg>
-        //                                         </span>`;
-        //                             }
-        //                             else
-        //                             {
-        //                                 tail = ''; 
-        //                             }
-        //                         }
+            message:
+                function()
+                {
+                    if(this.message != '')
+                    {
+                        this.mic = false;
+                    }
+                    else
+                    {
+                        this.mic = true;
+                    }
+                },
+            zoom:
+                function() 
+                {
+                    let CssVar = document.documentElement.style;
+                    if(this.zoom == false)
+                    {
+                        CssVar.setProperty('--var-font-text', '1em');
+                        CssVar.setProperty('--var-font-date', '0.7em');
+                    }
+                    else
+                    {
+                        CssVar.setProperty('--var-font-text', '1.7em');
+                        CssVar.setProperty('--var-font-date', '1em');
+                    }
+                },
+            dark:
+                function() 
+                {
+                    let CssVar = document.documentElement.style;
+                    if(this.dark == true)
+                    {
+                        CssVar.setProperty('--bg-contactlist', '#131c21');
+                        CssVar.setProperty('--bg-contactlist-hover', '#323739');
+                        CssVar.setProperty('--bg-nav', '#2a2f32');
+                        CssVar.setProperty('--bg-icon-date', '#a7a7a7');
+                        CssVar.setProperty('--bg-text', 'white');
+                        CssVar.setProperty('--bg-input-in', '#323739');
+                        CssVar.setProperty('--bg-input-ex', '#1e2428');
+                        CssVar.setProperty('--bg-message-sent', '#056162');
+                        CssVar.setProperty('--bg-message-rece', '#262d31');
 
+                        
+                        CssVar.setProperty('--bg-chevron-sent', 'linear-gradient(90deg, rgba(5, 97, 98,0) 0%, rgba(5, 97, 98,0.8029586834733894) 25%, rgba(5, 97, 98,1) 100%)');
+                        CssVar.setProperty('--bg-chevron-rece', 'linear-gradient(90deg, rgba(38, 45, 49,0) 0%, rgba(38, 45, 49,0.8029586834733894) 25%, rgba(38, 45, 49,1) 100%)');
 
-        //                 container.innerHTML += `
-        //                 <div class="card-message ${classes}">
-        //                     <span class="text-card">
-        //                         ${element.text}
-        //                     </span>
-        //                     <span class="date-card">
-        //                         ${element.date}
-        //                     </span>
-        //                     <span class="chevron">
-        //                         <i class="fa-solid fa-chevron-down"></i>
-        //                     </span>
-        //                     ${tail}
-                            
-        //                 </div>
-        //                 `;
-        //                 console.log(array[index + 1].status);
-        //             })
-        //         },
-        // contacts:
-        // function()
-        //         {
-        //             let container = document.querySelector(".message-container");
-        //             let Obj = this.contacts[this.active].messages;
-        //             let classes;
-        //             let tail;
-        //             container.innerHTML = '';
-        //             Obj.forEach((element, index, array) => {
-        //                 if(index == 0)
-        //                 {
-        //                     if(element.status == "sent")
-        //                     {
-        //                         classes = "sent first-sent";
-        //                         tail = `<span class="tail-message-sent">
-        //                                     <svg viewBox="0 0 8 13" width="8" height="13" class="">
-        //                                         <path opacity=".13" d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z"></path>
-        //                                         <path fill="#D5F9BA" d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z"></path>
-        //                                     </svg>
-        //                                 </span>`;
-        //                     }
-        //                     else
-        //                     {
-        //                         classes = "received first-rece";
-        //                         tail = `<span data-testid="tail-in" data-icon="tail-in" class="tail-message-rece">
-        //                                     <svg viewBox="0 0 8 13" width="8" height="13" class="">
-        //                                         <path opacity=".13" fill="#0000000" d="M1.533 3.568L8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path>
-        //                                         <path fill="#FFFFFF" d="M1.533 2.568L8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
-        //                                     </svg>
-        //                                 </span>`;
-        //                     }
-        //                 }
-        //                 else    if(element.status == "sent")
-        //                         {
-        //                             classes = "sent";
-        //                             if(array[index - 1].status != element.status)
-        //                             {
-        //                                 classes += " first-sent";
-        //                                 tail = `<span class="tail-message-sent">
-        //                                             <svg viewBox="0 0 8 13" width="8" height="13" class="">
-        //                                                 <path opacity=".13" d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z"></path>
-        //                                                 <path fill="#D5F9BA" d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z"></path>
-        //                                             </svg>
-        //                                         </span>`;
-        //                             }
-        //                             else
-        //                             {
-        //                                 tail = ''; 
-        //                             }
-        //                         }
-        //                         else
-        //                         {
-        //                             classes = "received";
-        //                             if(array[index - 1].status != element.status)
-        //                             {
-        //                                 classes += " first-rece";
-        //                                 tail = `<span data-testid="tail-in" data-icon="tail-in" class="tail-message-rece">
-        //                                             <svg viewBox="0 0 8 13" width="8" height="13" class="">
-        //                                                 <path opacity=".13" fill="#0000000" d="M1.533 3.568L8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path>
-        //                                                 <path fill="#FFFFFF" d="M1.533 2.568L8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
-        //                                             </svg>
-        //                                         </span>`;
-        //                             }
-        //                             else
-        //                             {
-        //                                 tail = ''; 
-        //                             }
-        //                         }
+                        CssVar.setProperty('--bg-body', 'linear-gradient(rgba(9, 14, 17, 1) 0vh, rgba(9, 14, 17, 1) 20vh, rgba(9, 14, 17, 1) 20vh, rgba(9, 14, 17, 1) 100vh)');
+                    }
+                    else
+                    {
+                        CssVar.setProperty('--bg-contactlist', 'white');
+                        CssVar.setProperty('--bg-contactlist-hover', '#E9EBEB');
+                        CssVar.setProperty('--bg-nav', '#EAEAEA');
+                        CssVar.setProperty('--bg-icon-date', '#B1B1B1');
+                        CssVar.setProperty('--bg-text', 'black');
+                        CssVar.setProperty('--bg-input-in', 'white');
+                        CssVar.setProperty('--bg-input-ex', '#f3eeea');
+                        CssVar.setProperty('--bg-message-sent', '#D5F9BA');
+                        CssVar.setProperty('--bg-message-rece', 'white');
 
+                        CssVar.setProperty('--bg-chevron-sent', 'linear-gradient(90deg, rgba(213,249,186,0) 0%, rgba(213,249,186,0.8029586834733894) 25%, rgba(213,249,186,1) 100%)');
+                        CssVar.setProperty('--bg-chevron-rece', 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8029586834733894) 25%, rgba(255,255,255,1) 100%)');
 
-        //                 container.innerHTML += `
-        //                 <div class="card-message ${classes}">
-        //                     <span class="text-card">
-        //                         ${element.text}
-        //                     </span>
-        //                     <span class="date-card">
-        //                         ${element.date}
-        //                     </span>
-        //                     <span class="chevron">
-        //                         <i class="fa-solid fa-chevron-down"></i>
-        //                     </span>
-        //                     ${tail}
-                            
-        //                 </div>
-        //                 `;
-        //                 console.log(array[index + 1].status);
-        //             })
-        //         }
-
+                        CssVar.setProperty('--bg-body', 'linear-gradient(rgba(0, 149, 135, 100) 0vh, rgba(0, 149, 135, 100) 20vh, rgba(220, 219, 208, 100) 20vh, rgba(220, 219, 208, 100) 100vh)');
+                    }
+                },
         },
         created()
         {
-            console.log(this.receving);
+            setTimeout(event => {
+                this.load = false;
+                document.querySelector("body").classList.remove("loading");
+            }, 1000)
         }
     }
 )

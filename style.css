@@ -1,3 +1,35 @@
+:root {
+    --var-font-text: 1em;
+    --var-font-date: 0.7em;
+
+    --dark-bg-contactlist: #131c21;;
+    --dark-bg-contactlist-hover: #323739;
+    --dark-bg-nav: #2a2f32;
+    --dark-bg-icon-date: white;
+    --dark-bg-text: white;
+    --dark-bg-input-in: #323739;
+    --dark-bg-input-ex: #1e2428;
+    --dark-bg-message-sent: #056162;
+    --dark-bg-message-rece: #262d31;
+    --dark-bg-chevron-sent: linear-gradient(90deg, rgba(5, 97, 98,0) 0%, rgba(5, 97, 98,0.8029586834733894) 25%, rgba(5, 97, 98,1) 100%);
+    --dark-bg-chevron-rece: linear-gradient(90deg, rgba(38, 45, 49,0) 0%, rgba(38, 45, 49,0.8029586834733894) 25%, rgba(38, 45, 49,1) 100%);
+    --dark-bg-body: #090e11;
+
+
+    --bg-contactlist: white;;
+    --bg-contactlist-hover: #E9EBEB;
+    --bg-nav: #EAEAEA;
+    --bg-icon-date: #B1B1B1;
+    --bg-text: black;
+    --bg-input-in: white;
+    --bg-input-ex: #f6f6f6;
+    --bg-message-sent: #D5F9BA;
+    --bg-message-rece: white;
+    --bg-chevron-sent: linear-gradient(90deg, rgba(213,249,186,0) 0%, rgba(213,249,186,0.8029586834733894) 25%, rgba(213,249,186,1) 100%);
+    --bg-chevron-rece: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8029586834733894) 25%, rgba(255,255,255,1) 100%);
+    --bg-body: linear-gradient(rgba(0, 149, 135, 100) 0vh, rgba(0, 149, 135, 100) 20vh, rgba(220, 219, 208, 100) 20vh, rgba(220, 219, 208, 100) 100vh);
+}
+
 html {
     font-size: 100%;
 }
@@ -30,8 +62,12 @@ input:focus {
 
 body {
     height: 100vh;
-    background-image: linear-gradient(rgba(0, 149, 135, 100) 0vh, rgba(0, 149, 135, 100) 20vh, rgba(220, 219, 208, 100) 20vh, rgba(220, 219, 208, 100) 100vh);
+    background-image: var(--bg-body);
     overflow: hidden;
+}
+
+.loading {
+    background-image: linear-gradient(rgba(220, 219, 208, 100) 0vh, rgba(220, 219, 208, 100) 100vh);
 }
 
 /* background */
@@ -44,7 +80,7 @@ main {
 }
 
 #app {
-    background-color: white;
+    background-color: transparent;
     width: 80%;
     height: 80vh;
     margin: 0 auto;
@@ -56,7 +92,7 @@ main {
     float: left;
     width: 350px;
     height: 100%;
-    background-color: white;
+    background-color: var(--bg-contactlist);
     min-height: 100px;
     border-right: 1px solid #D6D6D6;
 }
@@ -67,6 +103,12 @@ main {
     height: 100%;
 }
 
+.switch-container {
+    position: absolute;
+    top: -8%;
+    right: 2%;
+}
+
 /* web app structure */
 
 
@@ -74,7 +116,7 @@ main {
 /* header of two section */
 
 .my-nav {
-    background-color: #EAEAEA;
+    background-color: var(--bg-nav);
     padding: 15px;
     display: flex;
     width: 100%;
@@ -91,14 +133,14 @@ main {
     padding: 15px;
     align-content: center;
     position: relative;
-    background-color: #f3eeea;
+    background-color: var(--bg-input-ex);
 }
 
 .search-icon {
     position: absolute;
     top: 35%;
     left: 9%;
-    color: #B1B1B1;
+    color: var(--bg-icon-date);
 }
 
 .insert-search {
@@ -106,6 +148,7 @@ main {
     padding: 10px 0px 10px 40px;
     border: none;
     border-radius: 50px;
+    background-color: var(--bg-input-in);
 }
 
 .nav-item {
@@ -152,7 +195,7 @@ button {
 
 button > i {
     font-size: 1.4em;
-    color: #B1B1B1;
+    color: var(--bg-icon-date);
 }
 
 .contact-section .my-nav .contact-meta__data {
@@ -189,11 +232,11 @@ button > i {
 }
 
 .active {
-    background-color: #E9EBEB;
+    background-color: var(--bg-contactlist-hover);
 }
 
 .contact-list-item:hover {
-    background-color: #E9EBEB;
+    background-color: var(--bg-contactlist-hover);
 }
 
 .profile-pic {
@@ -201,22 +244,16 @@ button > i {
     max-width: 55px;
 }
 
-.profile-pic-default {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #0CD977;
-    height: 60px;
-    width: 60px;
-    overflow: hidden;
+.anonimus{
     border-radius: 50%;
+    background-color: white;
+    max-width: 55px;
 }
 
-.profile-pic-default span {
-    font-weight: bold;
-    color: #023047;
-    font-size: 1.2rem;
-    text-transform: uppercase;
+.profile-pic-anonimus {
+    color: var(--bg-contactlist-hover);
+    font-size: 25px;
+    padding: 15px;
 }
 
 .contact-meta__data {
@@ -226,12 +263,13 @@ button > i {
 .contact-meta__name {
     font-size: 0.9em;
     font-weight: 700;
+    color: var(--bg-text);
 }
 
 .contact-meta__mess, .contact-meta__time {
     font-size: 0.85em;
     line-height: 1em;
-    color: rgb(73, 73, 73);
+    color: var(--bg-icon-date);
 }
 
 .contact-meta__date {
@@ -262,6 +300,21 @@ button > i {
     overflow-y: auto;
 }
 
+.message-container-anonimus{
+    width: 100%;
+    height: calc(100% - 145px);
+    background-image: url(img/mine.jpg);
+    padding: 1em 10% 1em 10%;
+    display: flex;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.jumbotron {
+    text-align: center;
+    align-self: center;
+}
+
 .card-message {
     position: relative;
     display: flex;
@@ -269,26 +322,35 @@ button > i {
     margin: 0.5em 0;
     border-radius: 0.8em;
     min-width: 40%;
-    max-width: 50%;
+    max-width: 47%;
 }
 
 .text-card {
     align-self: flex-start;
     padding: 15px;
+    color: var(--bg-text);
+    font-size: var(--var-font-text);
 }
 
 .date-card {
     align-self: flex-end;
     padding: 0 16px 10px 0;
-    color: #B1B1B1;
-    font-size: 0.7em;
+    color: var(--bg-icon-date);
+    font-size: var(--var-font-date);
 }
 
 .chevron {
     position: absolute;
     right: 15px;
     top: 10px;
+    background: var(--bg-message-rece);
+    background: var(--bg-chevron-rece);
     display: none;
+}
+
+.sentChevron{
+    background: var(--bg-message-sent);
+    background: var(--bg-chevron-sent);;
 }
 
 .card-message:hover .chevron {
@@ -310,13 +372,13 @@ button > i {
 
 .sent {
     align-self: flex-end;
-    background-color: #D5F9BA;
+    background-color: var(--bg-message-sent);
     border-top-right-radius: 0;
 }
 
 .received {
     align-self: flex-start;
-    background-color: #FFFFFF;
+    background-color: var(--bg-message-rece);
     border-top-left-radius: 0;
 }
 
@@ -324,7 +386,7 @@ button > i {
     display: flex;
     height: 60px;
     padding: 0 1em;
-    background-color: #f3eeea;
+    background-color: var(--bg-input-ex);
 }
 
 .send-message-insert {
@@ -356,12 +418,12 @@ button > i {
 .list-interaction {
     list-style: none;
     padding: 0;
-    margin: 15px 0;
+    margin: 7px 0;
 }
 
 .list-item-interaction {
     padding: 15px 35px;
-    margin: 0.3px;
+    margin: 0.3px 7px;
     cursor: pointer;
 }
 
@@ -369,12 +431,121 @@ button > i {
     background-color: rgb(211, 211, 211);
 }
 
-/* 
-.chevron:focus + .interaction-mod {
-    pointer-events: all;
-    transform: translateY(0px);
-    opacity: 1;
-} 
-*/
-
 /* message interaction */
+
+
+
+/* chat interaction */
+
+.chat {
+    top: 70px;
+    right: 11%;
+}
+
+/* chat interaction */
+
+
+
+/* loader */
+
+.loader-14 {
+    width : 15em;
+    height: 15em;
+    display: block;
+    position: absolute;
+    top: 40%;
+    left: 45%;
+    z-index: 100000;
+}
+.loader-14::after , .loader-14::before {
+    content: '';
+    width : 15em;
+    height: 15em;
+    border-radius: 50%;
+    border: 15px solid rgba(0, 149, 135, 100);
+    position: absolute;
+    left:0;
+    top: 0;
+    animation: animloader14 0.6s linear infinite;
+}
+
+.loader-14::after {
+    animation-delay: 0.3s;
+}
+
+@keyframes animloader14 {
+    0% { transform: scale(0); opacity: 1;}
+    100% { transform: scale(1); opacity: 0;}
+  }
+
+/* loader */
+
+
+
+/* switch */
+
+/* The switch - the box around the slider */
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  /* switch */

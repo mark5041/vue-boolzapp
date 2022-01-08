@@ -9,13 +9,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.8.21/plugin/toObject.js"></script>
     <title>Document</title>
 </head>
-<body>
+<body class="loading">
 
     <main>
+          
         <div id="app">
-            <section class="contact-section">
+            <div v-show="load" id="loader" class="loader-container">
+                <span class="loader-14"></span>
+            </div>
+
+            <div class="switch-container">
+                <label class="switch">
+                    <input @click="dark = !dark" type="checkbox">
+                    <span class="slider round"></span>
+                  </label>
+            </div>
+
+            <section v-show="!load" class="contact-section">
                 <div class="my-nav">
                     <div class="contact-meta__icon nav-item">
                         <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
@@ -68,10 +82,12 @@
                             <div class="contact-meta__data">
                                 <div class="contact-meta__name">{{element.name}}</div>
                                 <div v-if="element.state == 'Stà scrivendo ...'" class="contact-meta__mess">{{element.state}}</div>
+                                <div v-else-if="element.messages.length == 0" class="contact-meta__mess"></div>
                                 <div v-else class="contact-meta__mess">{{element.messages[element.messages.length - 1].text}}</div>
                             </div>
                             <div class="contact-meta__date">
-                                <div class="contact-meta__time">20/12/2021</div>
+                                <div v-if="element.messages.length != 0 && element.state != 'Stà scrivendo ...'" class="contact-meta__time">{{lastDate(index, 'contact')}}</div>
+                                <div v-else class="contact-meta__time"></div>
                             </div>
                         </li>
                         
@@ -79,7 +95,7 @@
                 </div>
             </section>
 
-            <section class="message-section">
+            <section v-if="active != null" v-show="!load" class="message-section">
                 <div class="my-nav">
                     <div class="contact-meta__icon nav-item">
                         <img class="profile-pic" :src="`img/avatar${contacts[active].avatar}.jpg`" alt="Phil Mangione">                    
@@ -87,19 +103,30 @@
                     <div class="contact-meta__data nav-item">
                         <div class="contact-meta__name">{{contacts[active].name}}</div>
                         <div v-if="contacts[active].state != ''" class="contact-meta__mess">{{contacts[active].state}}</div>
-                        <div v-else class="contact-meta__mess">Online</div>
+                        <div v-else class="contact-meta__mess">Ultimo accesso {{contacts[active].lastAccess}}</div>
                     </div>
                     <div class="contact-meta__button">
                         <div class="button-box">
-                            <button>
-                                <i class="fa-solid fa-magnifying-glass"></i>
+                            <button @click = "zoom = !zoom">
+                                <i v-show="!zoom" class="fa-solid fa-magnifying-glass-plus"></i>
+                                <i v-show="zoom" class="fa-solid fa-magnifying-glass-minus"></i>
                             </button>
                             <button>
                                 <i class="fa-solid fa-paperclip"></i>
                             </button>
-                            <button>
+                            <button @focus="contacts[active].menu = !contacts[active].menu" @blur="contacts[active].menu = !contacts[active].menu">
                                 <i class="fa-solid fa-ellipsis-vertical"></i>
                             </button>
+
+                            <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave" v-bind:css="false">
+                                <div v-show="contacts[active].menu" class="interaction-mod chat">
+                                    <ul class="list-interaction">
+                                        <li  @click="deleteChat" class="list-item-interaction">Delete Chat</li>
+                                        <li @click="deleteAllMess" class="list-item-interaction">Delete All messages</li>
+                                    </ul>
+                                </div>
+                            </transition>
+
                         </div>
                     </div>
                 </div>
@@ -109,38 +136,83 @@
 
 
                 <div class="message-container">
-                    <div v-for="(message, index) in contacts[active].messages" :key="index" :class="(message.status == 'sent') ? 'sent' : 'received'" class="card-message">
+                    <div v-if="contacts[active].messages.length != 0" v-for="(message, index) in contacts[active].messages" :key="index" :class="(message.status == 'sent') ? 'sent' : 'received'" class="card-message">
                         <span class="text-card">
                             {{message.text}}
                         </span>
                         <span class="date-card">
-                            {{message.date}}
+                            {{lastDate(index, 'message')}}
                         </span>
-                        <button @click="message.mod = !message.mod" @blur="message.mod = !message.mod" class="chevron">
+                        <button @focus="message.mod = !message.mod" @blur="message.mod = !message.mod" class="chevron" :class="(message.status == 'sent') ? 'sentChevron' : ''">
                             <i class="fa-solid fa-chevron-down"></i>
                         </button>
+
                         <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave" v-bind:css="false">
 
                         <div v-show="message.mod" class="interaction-mod">
                             <ul class="list-interaction">
-                                <li class="list-item-interaction">Delete</li>
+                                <li @click="deleteMesssage(index)" class="list-item-interaction">Delete</li>
                                 <li class="list-item-interaction">Modify</li>
                             </ul>
                         </div>
 
                         </transition>
+
                         <span  v-if="message.status == 'sent'" class="tail-message-sent">
                             <svg viewBox="0 0 8 13" width="8" height="13" class="">
                                 <path opacity=".13" d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z"></path>
-                                <path fill="#D5F9BA" d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z"></path>
+                                <path v-if="!dark" fill="#D5F9BA" d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z"></path>
+                                <path v-else fill="#056162" d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z"></path>
                             </svg>
                         </span>
                         <span v-else data-testid="tail-in" data-icon="tail-in" class="tail-message-rece">
                             <svg viewBox="0 0 8 13" width="8" height="13" class="">
                                 <path opacity=".13" fill="#0000000" d="M1.533 3.568L8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path>
-                                <path fill="#FFFFFF" d="M1.533 2.568L8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
+                                <path v-if="!dark" fill="#FFFFFF" d="M1.533 2.568L8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
+                                <path v-else fill="#262d31" d="M1.533 2.568L8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
                             </svg>
                         </span>
+                    </div>
+
+                    <div v-else></div>
+                </div>
+
+                
+
+                <div class="message-interaction">
+                    <button class="message-item ms-3">
+                        <i class="fa-solid fa-face-smile"></i>
+                    </button>
+                   
+                    <input v-model="message" @focus="onWrite(contacts[active])" @blur="onWrite(contacts[active])" @keyup.enter="newMessage" type="text" class="send-message-insert" placeholder="Scrivi un messaggio">
+                    
+                    <button v-show="mic" class="message-item me-3">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+
+                    <button v-show="!mic" @click="newMessage" class="message-item me-3">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+
+                    
+                </div>
+                
+            </section>
+
+            <section v-else v-show = "!load" class="message-section">
+                <div class="my-nav">
+                    <div class="contact-meta__icon nav-item anonimus">
+                        <i class="profile-pic-anonimus fa-solid fa-user"></i>          
+                    </div>
+                </div>
+
+
+                <!-- (index == 0 || contacts[active].messages[index - 1].status != contacts[active].messages[index]) ? (contacts[active].messages[index - 1].status == 'sent') ? 'first-sent' : 'first-rece' : ' '  -->
+
+
+                <div class="message-container-anonimus">
+                    <div class="jumbotron">
+                        <h1> Inizia una nuova Chat o Selezionane una esistente</h1>
                     </div>
                 </div>
 
@@ -151,13 +223,18 @@
                         <i class="fa-solid fa-face-smile"></i>
                     </button>
                    
-                    <input v-model="message" @focus="onWrite(contacts[active])" @blur="noWrite(contacts[active])" @keyup.enter="newMessage" type="text" class="send-message-insert" placeholder="Scrivi un messaggio">
+                    <input v-model="message" @focus="onWrite(contacts[active])" @blur="onWrite(contacts[active])" @keyup.enter="newMessage" type="text" class="send-message-insert" placeholder="Scrivi un messaggio" disabled>
                     
-                    <button class="message-item me-3">
+                    <button v-show="mic" class="message-item me-3">
                         <i class="fa-solid fa-microphone"></i>
                     </button>
+
+                    <button v-show="!mic" @click="newMessage" class="message-item me-3">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+
+                    
                 </div>
-                
             </section>
         </div>
     </main>
