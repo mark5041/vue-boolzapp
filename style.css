@@ -2,6 +2,7 @@
     --var-font-text: 1em;
     --var-font-date: 0.7em;
 
+    --dark-bg-image: url(img/mine.jpg);
     --dark-bg-contactlist: #131c21;;
     --dark-bg-contactlist-hover: #323739;
     --dark-bg-nav: #2a2f32;
@@ -16,6 +17,7 @@
     --dark-bg-body: #090e11;
 
 
+    --bg-image: url(img/mine.jpg);
     --bg-contactlist: white;;
     --bg-contactlist-hover: #E9EBEB;
     --bg-nav: #EAEAEA;
@@ -293,7 +295,7 @@ button > i {
 .message-container {
     width: 100%;
     height: calc(100% - 145px);
-    background-image: url(img/mine.jpg);
+    background-image: var(--bg-image);
     padding: 1em 10% 1em 10%;
     display: flex;
     flex-direction: column;
@@ -303,7 +305,7 @@ button > i {
 .message-container-anonimus{
     width: 100%;
     height: calc(100% - 145px);
-    background-image: url(img/mine.jpg);
+    background-image: var(--bg-image);
     padding: 1em 10% 1em 10%;
     display: flex;
     justify-content: center;
@@ -313,6 +315,7 @@ button > i {
 .jumbotron {
     text-align: center;
     align-self: center;
+    color: var(--bg-text);
 }
 
 .card-message {
@@ -508,7 +511,7 @@ button > i {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
   }
@@ -520,17 +523,17 @@ button > i {
     width: 26px;
     left: 4px;
     bottom: 4px;
-    background-color: white;
+    background-color: rgb(211, 211, 211);
     -webkit-transition: .4s;
     transition: .4s;
   }
   
   input:checked + .slider {
-    background-color: #2196F3;
+    background-color: gray;
   }
   
   input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px gray;
   }
   
   input:checked + .slider:before {

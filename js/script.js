@@ -429,6 +429,7 @@ const app = new Vue (
                     let CssVar = document.documentElement.style;
                     if(this.dark == true)
                     {
+                        CssVar.setProperty('--bg-image', 'url(img/mine-rev.jpg)');
                         CssVar.setProperty('--bg-contactlist', '#131c21');
                         CssVar.setProperty('--bg-contactlist-hover', '#323739');
                         CssVar.setProperty('--bg-nav', '#2a2f32');
@@ -438,15 +439,13 @@ const app = new Vue (
                         CssVar.setProperty('--bg-input-ex', '#1e2428');
                         CssVar.setProperty('--bg-message-sent', '#056162');
                         CssVar.setProperty('--bg-message-rece', '#262d31');
-
-                        
                         CssVar.setProperty('--bg-chevron-sent', 'linear-gradient(90deg, rgba(5, 97, 98,0) 0%, rgba(5, 97, 98,0.8029586834733894) 25%, rgba(5, 97, 98,1) 100%)');
                         CssVar.setProperty('--bg-chevron-rece', 'linear-gradient(90deg, rgba(38, 45, 49,0) 0%, rgba(38, 45, 49,0.8029586834733894) 25%, rgba(38, 45, 49,1) 100%)');
-
                         CssVar.setProperty('--bg-body', 'linear-gradient(rgba(9, 14, 17, 1) 0vh, rgba(9, 14, 17, 1) 20vh, rgba(9, 14, 17, 1) 20vh, rgba(9, 14, 17, 1) 100vh)');
                     }
                     else
                     {
+                        CssVar.setProperty('--bg-image', 'url(img/mine.jpg)');
                         CssVar.setProperty('--bg-contactlist', 'white');
                         CssVar.setProperty('--bg-contactlist-hover', '#E9EBEB');
                         CssVar.setProperty('--bg-nav', '#EAEAEA');
@@ -456,10 +455,8 @@ const app = new Vue (
                         CssVar.setProperty('--bg-input-ex', '#f3eeea');
                         CssVar.setProperty('--bg-message-sent', '#D5F9BA');
                         CssVar.setProperty('--bg-message-rece', 'white');
-
                         CssVar.setProperty('--bg-chevron-sent', 'linear-gradient(90deg, rgba(213,249,186,0) 0%, rgba(213,249,186,0.8029586834733894) 25%, rgba(213,249,186,1) 100%)');
                         CssVar.setProperty('--bg-chevron-rece', 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8029586834733894) 25%, rgba(255,255,255,1) 100%)');
-
                         CssVar.setProperty('--bg-body', 'linear-gradient(rgba(0, 149, 135, 100) 0vh, rgba(0, 149, 135, 100) 20vh, rgba(220, 219, 208, 100) 20vh, rgba(220, 219, 208, 100) 100vh)');
                     }
                 },
